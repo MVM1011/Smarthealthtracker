@@ -1,0 +1,47 @@
+/* [project]/smarthealthtracker/components/Navbar/Navbar.css [app-client] (css) */
+nav {
+  z-index: 10;
+  color: #fff;
+  background-color: #1a1a1a;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  height: 60px;
+  padding: 0 50px;
+  font-family: Montserrat, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  display: flex;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 2px 4px #00000080;
+}
+
+nav img {
+  width: auto;
+  height: 60px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  transition: all .3s ease-in-out;
+}
+
+nav a:hover {
+  color: #ffc20e;
+}
+
+nav button {
+  background-color: var(--col1);
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-family: Montserrat, "sans-serif";
+  font-weight: 500;
+  transition: all .3s ease-in-out;
+}
+
+/*# sourceMappingURL=smarthealthtracker_components_Navbar_Navbar_css_bad6b30c._.single.css.map*/

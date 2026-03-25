@@ -1,0 +1,39 @@
+/* [project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.css [app-client] (css) */
+.swiper-slide {
+  background-size: cover;
+  border: 1px solid #e6e6e6;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  display: flex;
+}
+
+.swiper-slide .swiper-slide-content {
+  color: #fff;
+  background-color: #00000062;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.swiper-slide .swiper-slide-content h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.swiper-slide .swiper-slide-content p {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/*# sourceMappingURL=smarthealthtracker_components_HomeBanner2_HomeBanner2_css_bad6b30c._.single.css.map*/
