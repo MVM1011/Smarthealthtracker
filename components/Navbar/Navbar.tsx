@@ -1,65 +1,36 @@
-"use client"
-import React from 'react'
+"use client";
+import React from 'react';
 import logo from '../../app/assets/logo1.png';
-import { IoIosBody } from 'react-icons/io'
-import './Navbar.css'
-import Image from 'next/image'
-import Link from 'next/link'
-import AuthPopup from '../AuthPopup/AuthPopup'
+import { IoIosBody } from 'react-icons/io';
+import './Navbar.css';
+import Image from 'next/image';
+import Link from 'next/link';
+import AuthPopup from '../AuthPopup/AuthPopup';
+import { useAuth } from '@/app/context/AuthContext';
+
 const Navbar = () => {
-    const [isloggedin, setIsloggedin] = React.useState<boolean>(false)
-
-    const [showpopup, setShowpopup] = React.useState<boolean>(false)
-    const checklogin = async () => {
-        fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/auth/checklogin', {
-            method: 'POST',
-            credentials: 'include',
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                if (data.ok) {
-                    setIsloggedin(true)
-                }
-                else{
-                    setIsloggedin(false)
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-
-
-    React.useEffect(() => {
-        checklogin()
-    }, [showpopup])
+    const { isLoggedIn, isLoading, showPopup, logout, openAuthPopup } = useAuth();
 
     return (
         <nav>
-            <Image src={logo} alt="Logo" />
+            <Image src={logo} alt="logo" />
             <Link href='/'>Home</Link>
             <Link href='/about'>About</Link>
             <Link href='/profile'><IoIosBody /></Link>
-            {
-                isloggedin ?
-                    <button>Logout</button>
-                    :
-                    <button
-                        onClick={() => {
-                            setShowpopup(true)
-                        }}
-                    >Login</button>
 
+            {isLoading ? (
+                // While checking session, show nothing for auth button to avoid flicker
+                <button disabled style={{ opacity: 0.4 }}>...</button>
+            ) : isLoggedIn ? (
+                <button onClick={logout}>Logout</button>
+            ) : (
+                <button onClick={openAuthPopup}>Login</button>
+            )}
 
-
-            }
-
-            {
-                showpopup && <AuthPopup setShowpopup={setShowpopup} />
-            }
+            {/* Popup is ONLY shown when showPopup is true (controlled by AuthContext) */}
+            {showPopup && <AuthPopup />}
         </nav>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;
