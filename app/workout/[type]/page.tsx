@@ -1,9 +1,9 @@
 "use client"
 import React from 'react'
 import './workoutPage.css'
-
 const page = () => {
     const [workout, setWorkout] = React.useState<any>(null)
+
 
     const getworkout = async () => {
         let data: any = {
@@ -17,7 +17,7 @@ const page = () => {
                     sets: 3,
                     reps: 10,
                     rest: 60,
-                    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.'
+                    description: 'The flat bench press is a foundational compound weight-training exercise where you press a weight upward while lying horizontally on a bench. It is considered the "gold standard" for building upper body strength and mass, primarily targeting the pectoralis major (chest), anterior deltoids (front shoulders), and triceps brachii.'
                 },
                 {
                     exercise: 'Incline Bench Press',
@@ -25,7 +25,7 @@ const page = () => {
                     sets: 3,
                     reps: 10,
                     rest: 60,
-                    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.'
+                    description: 'The incline bench press is a compound upper-body exercise that primarily targets the clavicular head (upper portion) of the pectoralis major. By performing the press on an upward slope, the focus shifts from the middle chest to the upper chest and anterior deltoids (shoulders).'
 
                 },
                 {
@@ -34,11 +34,12 @@ const page = () => {
                     sets: 3,
                     reps: 10,
                     rest: 60,
-                    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.'
+                    description: 'The decline bench press is a variation of the chest press that targets the sternal head (lower portion) of the pectoralis major. By positioning your body at a downward angle, you shift the load away from the shoulders and more onto the lower chest and triceps.'
 
                 }
             ]
         }
+
 
         setWorkout(data)
     }
@@ -46,33 +47,32 @@ const page = () => {
     React.useEffect(() => {
         getworkout()
     }, [])
-
-  return (
-    <div className='workout'>
-    <h1 className = 'mainhead1'> {workout?.type} Day</h1>
-      <div className='workout__exercises'>
-        {
-           workout?.exercises.map((item: any,index: number)=>{
-            return (
-                <div  key={item.exercise} className = {
-                    index % 2 === 0 ? 'workout__exercise' : 'workout__exercise workout__exercise--reverse'
-                }>
-                    <h3>{index+1}</h3>
-                    <div className = 'workout__exercise__image'>
-                        <img src = {item.videoUrl} alt =""/>
-                    </div>
-                    <div className = 'workout__exercise__content'>
-                        <h2>{item.exercise}</h2>
-                        <span>{item.sets} sets X {item.reps} reps</span>
-                        <p>{item.description}</p>
-                    </div>
-                </div>
-                )
-           })
-        }
-      </div>
-    </div>
-  )
+    return (
+        <div className='workout'>
+            <h1 className='mainhead1'> {workout?.type} Day</h1>
+            <div className='workout__exercises'>
+                {
+                    workout?.exercises.map((item: any, index: number)=>{
+                        return (
+                            <div key={index} className={
+                                index % 2 === 0 ? 'workout__exercise' : 'workout__exercise workout__exercise--reverse'
+                            }>
+                                <h3>{index+1}</h3>
+                                <div className='workout__exercise__image'>
+                                    <img src={item.videoUrl} alt="" />
+                                </div>
+                                <div className='workout__exercise__content'>
+                                    <h2>{item.exercise}</h2>
+                                    <span>{item.sets} sets X {item.reps} reps</span>
+                                    <p>{item.description}</p>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        </div>
+    )
 }
 
 export default page

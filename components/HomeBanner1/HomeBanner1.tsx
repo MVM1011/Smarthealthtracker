@@ -9,86 +9,122 @@ const HomeBanner1 = () => {
   const [data, setData] = React.useState<any>(null)
 
   const getData = async () => {
-    let temp = [
-      {
-        "name": "Calories Intake",
-        "value": 2000,
-        "unit": "kcal",
-        "goal": 2500,
-        "goalUnit": "kcal"
-      },
-      {
-        "name": "Sleep",
-        "value": 8,
-        "unit": "hrs",
-        "goal": 8,
-        "goalUnit": "hrs"
-      },
-      {
-        "name": "Steps",
-        "value": 50,
-        "unit": "steps",
-        "goal": 10000,
-        "goalUnit": "steps"
-      },
-      {
-        "name": "Water",
-        "value": 2000,
-        "unit": "ml",
-        "goal": 3000,
-        "goalUnit": "ml"
-      },
-      {
-        "name": "Weight",
-        "value": 75,
-        "unit": "kg",
-        "goal": 70,
-        "goalUnit": "kg"
-      },
-      {
-        "name": "Workout",
-        "value": 2,
-        "unit": "days",
-        "goal": 6,
-        "goalUnit": "days"
+    // let temp = [
+    //   {
+    //     "name": "Calories Intake",
+    //     "value": 2000,
+    //     "unit": "kcal",
+    //     "goal": 2500,
+    //     "goalUnit": "kcal"
+    //   },
+    //   {
+    //     "name": "Sleep",
+    //     "value": 8,
+    //     "unit": "hrs",
+    //     "goal": 8,
+    //     "goalUnit": "hrs"
+    //   },
+    //   {
+    //     "name": "Steps",
+    //     "value": 50,
+    //     "unit": "steps",
+    //     "goal": 10000,
+    //     "goalUnit": "steps"
+    //   },
+    //   {
+    //     "name": "Water",
+    //     "value": 2000,
+    //     "unit": "ml",
+    //     "goal": 3000,
+    //     "goalUnit": "ml"
+    //   },
+    //   {
+    //     "name": "Weight",
+    //     "value": 75,
+    //     "unit": "kg",
+    //     "goal": 70,
+    //     "goalUnit": "kg"
+    //   },
+    //   {
+    //     "name": "Workout",
+    //     "value": 2,
+    //     "unit": "days",
+    //     "goal": 6,
+    //     "goalUnit": "days"
+    //   }
+    // ]
+    // setData(temp)
+    // console.log(temp)
+
+    fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/report/getreport',{
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      if(data.ok) {
+        setData(data.data)
       }
-    ]
-    setData(temp)
-    console.log(temp)
+      else {
+        setData([])
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      setData([])
+    })
+    
   }
 
   React.useEffect(() => {
     getData()
   }, [])
 
-  function simplifyFraction(numerator: number, denominator: number): [number, number] {
-    function gcd(a: number, b: number): number {
-      return b === 0 ? a : gcd(b, a % b);
-    }
-    const commonDivisor: number = gcd(numerator, denominator);
+  // function simplifyFraction(numerator: number, denominator: number): [number, number] {
+  //   function gcd(a: number, b: number): number {
+  //     return b === 0 ? a : gcd(b, a % b);
+  //   }
+  //   const commonDivisor: number = gcd(numerator, denominator);
 
-    // Simplify the fraction
-    const simplifiedNumerator: number = numerator / commonDivisor;
-    const simplifiedDenominator: number = denominator / commonDivisor;
+  //   // Simplify the fraction
+  //   const simplifiedNumerator: number = numerator / commonDivisor;
+  //   const simplifiedDenominator: number = denominator / commonDivisor;
 
-    return [simplifiedNumerator, simplifiedDenominator];
+  //   return [simplifiedNumerator, simplifiedDenominator];
 
-  }
+  // }
   return (
     <div className='meters'>
 
       {
         data?.length > 0 && data.map((item: any, index: number) => {
+          const value = Math.round(Number(item.value) || 0);
+          const goal = Math.round(Number(item.goal) || 0);
+          //const percentage = goal > 0 ? Math.round((value / goal) * 100) : 0;
+          //const percentage = goal > 0 ? Math.min((value / goal) * 100, 100) : 0;
+          let percentage = 0;
+
+          if (goal > 0) {
+          if (value > goal) {
+            // likely weight loss case (you exceeded target)
+                percentage = Math.min((goal / value) * 100, 100);
+          } else {
+            // weight gain or normal metrics
+               percentage = Math.min((value / goal) * 100, 100);
+          }
+          }
+          percentage = Math.round(percentage);
           return (
             <div className='card' key={index}>
               <div className='card-header'>
                 <div className='card-header-box'>
                   <div className='card-header-box-name'>{item.name}</div>
-                  <div className='card-header-box-value'>{item.value} {item.unit}</div>
+                  <div className='card-header-box-value'>{value} {item.unit}</div>
                 </div>
                 <div className='card-header-box'>
                   <div className='card-header-box-name'>Target</div>
-                  <div className='card-header-box-value'>{item.goal} {item.goalUnit}</div>
+                  <div className='card-header-box-value'>{goal} {item.goalUnit}</div>
                 </div>
               </div>
 
@@ -98,14 +134,20 @@ const HomeBanner1 = () => {
                 variant="solid"
                 size="lg"
                 value={
-                  (item.value / item.goal) * 100
+                  percentage
                 }
               >
-                <span className='textincircle'>
-                  {
-                    simplifyFraction(item.value, item.goal)[0] + ' / ' + simplifyFraction(item.value, item.goal)[1]
-                  }
-                </span>
+                <div className='textincircle'>
+                <span> {
+                  value
+                  }</span>
+                  <span className='hrline'></span>
+                  <span>
+                    {
+                      goal
+                    }
+                    </span>
+                </div>
               </CircularProgress>
 
               <button

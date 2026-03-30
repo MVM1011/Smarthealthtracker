@@ -2,167 +2,143 @@
 import React from 'react'
 import { LineChart } from '@mui/x-charts/LineChart';
 import './ReportPage.css'
-import {AiFillEdit} from 'react-icons/ai';
-import "swiper/css";
-import "swiper/css/pagination";
-
+import { AiFillEdit } from 'react-icons/ai'
 import CalorieIntakePopup from '@/components/ReportFormPopup/CalorieIntake/CalorieIntakePopup';
+import { usePathname } from 'next/navigation';
 
 const page = () => {
     const color = '#ffc20e'
+    const pathname = usePathname();
+    console.log(pathname)
 
     const chartsParams = {
         height: 300,
     };
 
     const [dataS1, setDataS1] = React.useState<any>(null)
-    const [showCalorieIntakePopup, setShowCalorieIntakePopup] = React.useState(false)
+    //const [showCalorieIntakePopup, setShowCalorieIntakePopup] = React.useState(false)
 
     const getDataForS1 = async () => {
-        let temp = [
-            { date: '2023-09-28', value: 2000 },
-            { date: '2023-09-27', value: 2500 },
-            { date: '2023-09-26', value: 2700 },
-            { date: '2023-09-25', value: 3000 },
-            { date: '2023-09-24', value: 2000 },
-            { date: '2023-09-23', value: 2300 },
-            { date: '2023-09-22', value: 2500 },
-            { date: '2023-09-21', value: 2700 },
-        ]
 
-        // ✅ Keep numbers (DO NOT stringify)
-        const dataForLineChart = temp.map(item => item.value)
+        if(pathname == '/report/Calorie%20Intake') {
+            fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/calorieintake/getcalorieintakebylimit',{
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ limit: 10})        
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.ok) {
+                let temp = data.data.map((item: any) => {
+                    return {
+                        date: item.date,
+                        value: item.calorieIntake,
+                        unit: 'kcal'
+                    }
+                })
+                console.log(temp)
+                let dataForLineChart = temp.map((item: any) => {
+                    let val = Number(item.value)
+                    return val
+                })
 
-        const dataForXAxis = temp.map(item => new Date(item.date))
+               let dataForXAxis = temp.map((item: any) => {
+                let val = new Date(item.date)
+                return val
+               })
+           
+               setDataS1({
+                data: dataForLineChart,
+                title: '1 Day Calorie Intake',
+                color: color,
+                xAxis: {
+                    data: dataForXAxis,
+                    label: 'Last 10 Days',
+                    scaleType: 'time'
+                }
+               })
 
-        setDataS1({
-            data: dataForLineChart,
-            title: '1 Day Calorie Intake',
-            color,
-            xAxis: {
-                data: dataForXAxis,
-                label: 'Last 10 Days',
-                scaleType: 'time'
+            }
+            else {
+                setDataS1([])
             }
         })
+        .catch(err => {
+            console.log(err)
+        })
+    } else {
+         alert('Get data for other reports')
     }
+    
+}
 
     React.useEffect(() => {
         getDataForS1()
     }, [])
 
+   
+   const [showCalorieIntakePopup, setShowCalorieIntakePopup] = React.useState<boolean>(false)
+
     return (
         <div className='reportpage'>
-
-            {/* Section 1 */}
-            <div className='s1'>
-                {dataS1 && (
-                    <LineChart
+            
+                
+                <div className='s1'>
+                    {
+                        dataS1 &&
+                        <LineChart
                         xAxis={[{
                             id: 'Day',
                             data: dataS1.xAxis.data,
-                            scaleType: 'time',
+                            scaleType: dataS1.xAxis.scaleType,
                             label: dataS1.xAxis.label,
-                            valueFormatter: (date: Date) =>
-                                date.toLocaleDateString('en-IN', {
-                                    day: 'numeric',
-                                    month: 'short'
-                                }) // ✅ MUST return string
+                            valueFormatter: (date: any) => {
+                                return date.getDate().toString();
+                            }
                         }]}
-                        series={[{
-                            data: dataS1.data,
-                            label: dataS1.title,
-                            color: dataS1.color,
-                        }]}
+                        series={[
+                            {
+                                data: dataS1.data,
+                                label: dataS1.title,
+                                color: dataS1.color,
+                            },
+                        ]}
                         {...chartsParams}
                     />
-                )}
-            </div>
 
-            <div className='s2'>
-                {dataS1 && (
-                    <LineChart
-                        xAxis={[{
-                            data: dataS1.xAxis.data,
-                            scaleType: 'time',
-                            valueFormatter: (date: Date) =>
-                                date.toLocaleDateString('en-IN', {
-                                    day: 'numeric',
-                                    month: 'short'
-                                })
-                        }]}
-                        series={[{
-                            data: dataS1.data,
-                            label: dataS1.title,
-                            color: dataS1.color,
-                        }]}
-                        {...chartsParams}
-                    />
-                )}
-            </div>
+                    }
 
-            {/* Section 3 */}
-            <div className='s3'>
-                {dataS1 && (
-                    <LineChart
-                        xAxis={[{
-                            data: dataS1.xAxis.data,
-                            scaleType: 'time',
-                            valueFormatter: (date: Date) =>
-                                date.toLocaleDateString('en-IN', {
-                                    day: 'numeric',
-                                    month: 'short'
-                                })
-                        }]}
-                        series={[{
-                            data: dataS1.data,
-                            label: dataS1.title,
-                            color: dataS1.color,
-                        }]}
-                        {...chartsParams}
-                    />
-                )}
-            </div>
+                </div>
+       
+            
 
-            {/* Section 4 */}
-            <div className='s4'>
-                {dataS1 && (
-                    <LineChart
-                        xAxis={[{
-                            data: dataS1.xAxis.data,
-                            scaleType: 'time',
-                            valueFormatter: (date: Date) =>
-                                date.toLocaleDateString('en-IN', {
-                                    day: 'numeric',
-                                    month: 'short'
-                                })
-                        }]}
-                        series={[{
-                            data: dataS1.data,
-                            label: dataS1.title,
-                            color: dataS1.color,
-                        }]}
-                        {...chartsParams}
-                    />
-                )}
-            </div>
+            <button className='editbutton'
+                onClick={() => {
+                    if(pathname == '/report/Calorie%20Intake') {
+                         setShowCalorieIntakePopup(true)
+                    }
+                    else
+                    {
+                        alert('Show popup for other reports')
+                    }
 
-            {/* Edit Button */}
-            <button
-                className='editbutton'
-                onClick={() => setShowCalorieIntakePopup(true)}
+                }}
             >
                 <AiFillEdit />
             </button>
 
-            {/* Popup */}
-            {showCalorieIntakePopup && (
-                <CalorieIntakePopup
-                    setShowCalorieIntakePopup={setShowCalorieIntakePopup}
-                />
-            )}
+            {
+                showCalorieIntakePopup &&
+
+                <CalorieIntakePopup setShowCalorieIntakePopup={setShowCalorieIntakePopup} />
+
+            }
         </div>
     )
 }
 
 export default page
+

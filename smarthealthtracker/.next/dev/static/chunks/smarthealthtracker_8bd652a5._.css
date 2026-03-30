@@ -23,10 +23,10 @@
   padding: 10px;
   transition: all .3s;
   display: flex;
-  box-shadow: 0 0 10px #0003;
+  box-shadow: 0 0 10px #6a454533;
 }
 
-.meters .card:first-child, .meters .card:nth-child(2), .meters .card:nth-child(3), .meters .card:nth-child(4), .meters .card:nth-child(5), .meters .card:nth-child(6) {
+.meters .card:first-child, .meters .card:nth-child(2), .meters .card:nth-child(3), .meters .card:nth-child(4), .meters .card:nth-child(5), .meters .card:nth-child(6), .meters .card:nth-child(7) {
   background: linear-gradient(90deg, #ffff7c 0%, #ffb47e 100%);
 }
 
@@ -39,7 +39,7 @@
 
 .meters .card-header-box {
   aspect-ratio: 1;
-  background-color: #fff;
+  background-color: #f2e645;
   border-radius: 10px;
   flex-direction: column;
   justify-content: center;
@@ -50,6 +50,7 @@
 }
 
 .meters .card-header-box-name {
+  color: #000;
   font-size: 12px;
   font-weight: bold;
 }
@@ -80,7 +81,20 @@
 
 .meters .textincircle {
   color: #333;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
   font-weight: 700;
+  display: flex;
+}
+
+.meters .textincircle .hrline {
+  background-color: #333;
+  width: 100%;
+  height: 1px;
+  margin: 1px 0;
 }
 
 /* [project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.css [app-client] (css) */

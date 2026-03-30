@@ -11,6 +11,7 @@ __turbopack_context__.s([
     "default",
     ()=>__TURBOPACK__default__export__
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/smarthealthtracker/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/smarthealthtracker/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/smarthealthtracker/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f40$mui$2f$joy$2f$CircularProgress$2f$CircularProgress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/smarthealthtracker/node_modules/@mui/joy/CircularProgress/CircularProgress.js [app-client] (ecmascript)");
@@ -25,74 +26,100 @@ const HomeBanner1 = ()=>{
     _s();
     const [data, setData] = __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState(null);
     const getData = async ()=>{
-        let temp = [
-            {
-                "name": "Calories Intake",
-                "value": 2000,
-                "unit": "kcal",
-                "goal": 2500,
-                "goalUnit": "kcal"
-            },
-            {
-                "name": "Sleep",
-                "value": 8,
-                "unit": "hrs",
-                "goal": 8,
-                "goalUnit": "hrs"
-            },
-            {
-                "name": "Steps",
-                "value": 50,
-                "unit": "steps",
-                "goal": 10000,
-                "goalUnit": "steps"
-            },
-            {
-                "name": "Water",
-                "value": 2000,
-                "unit": "ml",
-                "goal": 3000,
-                "goalUnit": "ml"
-            },
-            {
-                "name": "Weight",
-                "value": 75,
-                "unit": "kg",
-                "goal": 70,
-                "goalUnit": "kg"
-            },
-            {
-                "name": "Workout",
-                "value": 2,
-                "unit": "days",
-                "goal": 6,
-                "goalUnit": "days"
+        // let temp = [
+        //   {
+        //     "name": "Calories Intake",
+        //     "value": 2000,
+        //     "unit": "kcal",
+        //     "goal": 2500,
+        //     "goalUnit": "kcal"
+        //   },
+        //   {
+        //     "name": "Sleep",
+        //     "value": 8,
+        //     "unit": "hrs",
+        //     "goal": 8,
+        //     "goalUnit": "hrs"
+        //   },
+        //   {
+        //     "name": "Steps",
+        //     "value": 50,
+        //     "unit": "steps",
+        //     "goal": 10000,
+        //     "goalUnit": "steps"
+        //   },
+        //   {
+        //     "name": "Water",
+        //     "value": 2000,
+        //     "unit": "ml",
+        //     "goal": 3000,
+        //     "goalUnit": "ml"
+        //   },
+        //   {
+        //     "name": "Weight",
+        //     "value": 75,
+        //     "unit": "kg",
+        //     "goal": 70,
+        //     "goalUnit": "kg"
+        //   },
+        //   {
+        //     "name": "Workout",
+        //     "value": 2,
+        //     "unit": "days",
+        //     "goal": 6,
+        //     "goalUnit": "days"
+        //   }
+        // ]
+        // setData(temp)
+        // console.log(temp)
+        fetch(("TURBOPACK compile-time value", "http://localhost:8000") + '/report/getreport', {
+            method: 'GET',
+            credentials: 'include'
+        }).then((res)=>res.json()).then((data)=>{
+            console.log(data);
+            if (data.ok) {
+                setData(data.data);
+            } else {
+                setData([]);
             }
-        ];
-        setData(temp);
-        console.log(temp);
+        }).catch((err)=>{
+            console.log(err);
+            setData([]);
+        });
     };
     __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useEffect({
         "HomeBanner1.useEffect": ()=>{
             getData();
         }
     }["HomeBanner1.useEffect"], []);
-    function simplifyFraction(numerator, denominator) {
-        function gcd(a, b) {
-            return b === 0 ? a : gcd(b, a % b);
-        }
-        const commonDivisor = gcd(numerator, denominator);
-        // Simplify the fraction
-        const simplifiedNumerator = numerator / commonDivisor;
-        const simplifiedDenominator = denominator / commonDivisor;
-        return [
-            simplifiedNumerator,
-            simplifiedDenominator
-        ];
-    }
+    // function simplifyFraction(numerator: number, denominator: number): [number, number] {
+    //   function gcd(a: number, b: number): number {
+    //     return b === 0 ? a : gcd(b, a % b);
+    //   }
+    //   const commonDivisor: number = gcd(numerator, denominator);
+    //   // Simplify the fraction
+    //   const simplifiedNumerator: number = numerator / commonDivisor;
+    //   const simplifiedDenominator: number = denominator / commonDivisor;
+    //   return [simplifiedNumerator, simplifiedDenominator];
+    // }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "meters",
         children: data?.length > 0 && data.map((item, index)=>{
+            const value = Math.round(Number(item.value) || 0);
+            const goal = Math.round(Number(item.goal) || 0);
+            //const percentage = goal > 0 ? Math.round((value / goal) * 100) : 0;
+            //const percentage = goal > 0 ? Math.min((value / goal) * 100, 100) : 0;
+            let percentage = 0;
+            if (goal > 0) {
+                if (value > goal) {
+                    // likely weight loss case (you exceeded target)
+                    percentage = Math.min(goal / value * 100, 100);
+                } else {
+                    // weight gain or normal metrics
+                    percentage = Math.min(value / goal * 100, 100);
+                }
+            }
+            percentage = Math.round(percentage);
             return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "card",
                 children: [
@@ -107,25 +134,25 @@ const HomeBanner1 = ()=>{
                                         children: item.name
                                     }, void 0, false, {
                                         fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                                        lineNumber: 86,
+                                        lineNumber: 122,
                                         columnNumber: 19
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "card-header-box-value",
                                         children: [
-                                            item.value,
+                                            value,
                                             " ",
                                             item.unit
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                                        lineNumber: 87,
+                                        lineNumber: 123,
                                         columnNumber: 19
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                                lineNumber: 85,
+                                lineNumber: 121,
                                 columnNumber: 17
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -136,31 +163,31 @@ const HomeBanner1 = ()=>{
                                         children: "Target"
                                     }, void 0, false, {
                                         fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                                        lineNumber: 90,
+                                        lineNumber: 126,
                                         columnNumber: 19
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "card-header-box-value",
                                         children: [
-                                            item.goal,
+                                            goal,
                                             " ",
                                             item.goalUnit
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                                        lineNumber: 91,
+                                        lineNumber: 127,
                                         columnNumber: 19
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                                lineNumber: 89,
+                                lineNumber: 125,
                                 columnNumber: 17
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                        lineNumber: 84,
+                        lineNumber: 120,
                         columnNumber: 15
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f40$mui$2f$joy$2f$CircularProgress$2f$CircularProgress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -168,18 +195,43 @@ const HomeBanner1 = ()=>{
                         determinate: true,
                         variant: "solid",
                         size: "lg",
-                        value: item.value / item.goal * 100,
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        value: percentage,
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "textincircle",
-                            children: simplifyFraction(item.value, item.goal)[0] + ' / ' + simplifyFraction(item.value, item.goal)[1]
-                        }, void 0, false, {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    children: [
+                                        " ",
+                                        value
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
+                                    lineNumber: 141,
+                                    columnNumber: 17
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "hrline"
+                                }, void 0, false, {
+                                    fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
+                                    lineNumber: 144,
+                                    columnNumber: 19
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    children: goal
+                                }, void 0, false, {
+                                    fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
+                                    lineNumber: 145,
+                                    columnNumber: 19
+                                }, ("TURBOPACK compile-time value", void 0))
+                            ]
+                        }, void 0, true, {
                             fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                            lineNumber: 104,
+                            lineNumber: 140,
                             columnNumber: 17
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                        lineNumber: 95,
+                        lineNumber: 131,
                         columnNumber: 15
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -190,25 +242,25 @@ const HomeBanner1 = ()=>{
                             "Show Report ",
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$react$2d$icons$2f$ai$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AiOutlineEye"], {}, void 0, false, {
                                 fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                                lineNumber: 115,
+                                lineNumber: 157,
                                 columnNumber: 28
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                        lineNumber: 111,
+                        lineNumber: 153,
                         columnNumber: 15
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, index, true, {
                 fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-                lineNumber: 83,
+                lineNumber: 119,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0));
         })
     }, void 0, false, {
         fileName: "[project]/smarthealthtracker/components/HomeBanner1/HomeBanner1.tsx",
-        lineNumber: 78,
+        lineNumber: 98,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
