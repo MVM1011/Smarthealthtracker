@@ -1,7 +1,7 @@
 (globalThis.TURBOPACK_CHUNK_LISTS || (globalThis.TURBOPACK_CHUNK_LISTS = [])).push({
     script: typeof document === "object" ? document.currentScript : undefined,
     chunks: [
-  "static/chunks/3ab89_next_6e1cb813._.js",
+  "static/chunks/3ab89_next_8e713624._.js",
   "static/chunks/3ab89_react-icons_io_index_mjs_233ef32c._.js",
   "static/chunks/3ab89_react-icons_ai_index_mjs_8bf76f32._.js",
   "static/chunks/3ab89_react-icons_lib_7d05f6ad._.js",
@@ -17,8 +17,8 @@
   "static/chunks/3ab89_@mui_material_esm_styles_51308523._.js",
   "static/chunks/3ab89_@mui_material_esm_e53b72f6._.js",
   "static/chunks/3ab89_5cdab78c._.js",
-  "static/chunks/smarthealthtracker_9ea3f226._.js",
-  "static/chunks/[root-of-the-server]__adf5bd28._.css"
+  "static/chunks/smarthealthtracker_365d2278._.js",
+  "static/chunks/[root-of-the-server]__f67b3049._.css"
 ],
     source: "dynamic"
 });

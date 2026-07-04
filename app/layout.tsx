@@ -1,8 +1,9 @@
 import Navbar from '@/components/Navbar/Navbar'
+import AuthGate from '@/components/AuthGate/AuthGate'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
+        <AuthGate>
+          <Navbar />
+          {children}
+        </AuthGate>
         <ToastContainer />
       </body>
     </html>

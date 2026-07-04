@@ -1,0 +1,51 @@
+.adminLayoutNav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 20px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.adminLayoutNav a {
+    color: var(--col1);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.adminLayoutNav a:hover {
+    text-decoration: underline;
+}
+
+.adminLayoutNav__spacer {
+    flex: 1;
+    min-width: 8px;
+}
+
+.adminLayoutNav__logout {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--col1);
+    background: transparent;
+    color: var(--col1);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.adminLayoutNav__logout:hover {
+    background: rgba(255, 194, 14, 0.12);
+}
+
+.adminLayoutNav__extra {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}

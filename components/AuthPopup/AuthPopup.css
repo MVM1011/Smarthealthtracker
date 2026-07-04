@@ -85,4 +85,25 @@
     right: 0px;
     border-radius: 50%;
     line-height: 0;
-} 
+}
+
+.adminLoginRow {
+    text-align: center;
+    margin-top: 6px !important;
+}
+
+.adminLoginBtn {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--col1);
+    background: transparent;
+    color: var(--col1);
+    cursor: pointer;
+    opacity: 0.85;
+}
+
+.adminLoginBtn:hover {
+    opacity: 1;
+    background: rgba(255, 194, 14, 0.12);
+}

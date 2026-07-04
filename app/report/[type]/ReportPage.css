@@ -1,5 +1,5 @@
 .reportpage{
-    background-color: white;
+    background-color: var(--surface);
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -7,7 +7,7 @@
     justify-content: center;
 }
 .reportpage .s1{
-    width: 40%;
+    width: 90%;
     padding: 10px;
 }
 
@@ -46,7 +46,49 @@
 }
 
 .reportpage .editbutton:hover{
-    background-color: black;
+    background-color: rgb(0, 0, 0);
     color: var(--col1);
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+}
+
+.graphBlock{
+    border: 1px solid var(--border);
+    background-color: var(--surface-2);
+    padding: 16px 18px;
+    border-radius: 14px;
+    margin: 16px 0;
+}
+
+.graphTitle{
+    color: var(--col1);
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.graphCommands{
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.graphCommands p{
+    margin: 6px 0;
+    color: var(--muted);
+}
+
+.sleepInsights{
+    margin-top: 8px;
+    color: var(--text);
+}
+
+/* MUI Charts legend/axis text colors for dark + light themes */
+.graphBlock .MuiChartsLegend-label {
+    fill: var(--text) !important;
+    color: var(--text) !important;
+}
+
+.graphBlock .MuiChartsAxis-tickLabel,
+.graphBlock .MuiChartsAxis-label {
+    fill: var(--text) !important;
 }

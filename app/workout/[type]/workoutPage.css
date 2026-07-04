@@ -2,9 +2,10 @@
     font-family: Arial, sans-serif;
     margin: 20px;
     padding: 20px;
-    border: 1px solid #ddd;
-    background-color: #fff;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
     text-align: center;
+    color: var(--text);
 }
 
 .workout__exercises{
@@ -49,7 +50,7 @@
 .workout__exercise__content h2 {
     font-size: 50px;
     font-weight: 900;
-    -webkit-text-stroke: 1px #333;
+    -webkit-text-stroke: 1px var(--text);
     color: transparent;
 
 }
@@ -68,6 +69,21 @@
     font-size: 20px;
     font-weight: 300;
     color: var(--col1);
+}
+
+.workout__exercise__linkBox{
+    margin-top: 8px;
+    border: 1px solid var(--border);
+    background-color: var(--surface-2);
+    padding: 10px 14px;
+    border-radius: 10px;
+    width: fit-content;
+}
+
+.workout__exercise__linkBox a{
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
 }
 
 .workout__exercises h3{

@@ -6,37 +6,44 @@ import Image from 'next/image'
 import Input from '@mui/joy/Input';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
-import { AiFillDelete, AiOutlineClose } from 'react-icons/ai'
+import { AiOutlineClose } from 'react-icons/ai'
 import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
 
-//
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 interface AuthPopupProps {
     setShowpopup: React.Dispatch<React.SetStateAction<boolean>>;
+    forceOpen?: boolean;
+    onAuthSuccess?: () => void;
 }
 
 
 interface SignupFormData {
-    name: String | null,
-    email: String | null,
-    password: String | null,
-    weightInKg: Number | null,
-    heightInCm: Number | null,
-    goal: String | null,
-    gender: String | null,
-    dob: Date | null,
-    activityLevel: String | null
+    name: string,
+    email: string,
+    password: string,
+    weightInKg: number,
+    heightInCm: number,
+    goal: string,
+    gender: string,
+    dob: Date,
+    activityLevel: string
 }
 
 
-const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
+type AuthView = 'login' | 'signup' | 'verify' | 'forgot' | 'reset';
 
-    const [showSignup, setShowSignup] = React.useState<boolean>(false)
+const passwordRuleMessage =
+    'Password must be at least 8 characters and include uppercase, lowercase, number, and special character';
+
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+
+const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup, forceOpen = false, onAuthSuccess }) => {
+    const [currentView, setCurrentView] = React.useState<AuthView>('login')
     const [signupformData, setSignupFormData] = useState<SignupFormData>({
         name: '',
         email: '',
@@ -52,81 +59,25 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
         email: '',
         password: '',
     })
+    const [verificationEmail, setVerificationEmail] = useState('')
+    const [verificationOtp, setVerificationOtp] = useState('')
+    const [forgotEmail, setForgotEmail] = useState('')
+    const [resetOtp, setResetOtp] = useState('')
+    const [newPassword, setNewPassword] = useState('')
 
-    // router.post('/register', async (req, res, next) => {
-    //     console.log(req.body);
-    //     try {
-    //         const { name, email, password, weightInKg, heightInCm, gender, dob, goal, activityLevel } = req.body;
-    //         const existingUser = await User.findOne({ email: email });
+    const closePopup = () => {
+        if (forceOpen) {
+            return;
+        }
+        setShowpopup(false)
+    }
 
-    //         if (existingUser) {
-    //             return res.status(409).json(createResponse(false, 'Email already exists'));
-    //         }
-    //         const newUser = new User({
-    //             name,
-    //             password,
-    //             email,
-    //             weight: [
-    //                 {
-    //                     weight: weightInKg,
-    //                     unit: "kg",
-    //                     date: Date.now()
-    //                 }
-    //             ],
-    //             height: [
-    //                 {
-    //                     height: heightInCm,
-    //                     date: Date.now(),
-    //                     unit: "cm"
-    //                 }
-    //             ],
-    //             gender,
-    //             dob,
-    //             goal,
-    //             activityLevel
-    //         });
-    //         await newUser.save(); // Await the save operation
-
-    //         res.status(201).json(createResponse(true, 'User registered successfully'));
-
-    //     }
-    //     catch (err) {
-    //         next(err);
-    //     }
-    // })
-    // router.post('/login', async (req, res, next) => {
-    //     try {
-    //         const { email, password } = req.body;
-    //         const user = await User.findOne({ email });
-    //         if (!user) {
-    //             return res.status(400).json(createResponse(false, 'Invalid credentials'));
-    //         }
-    //         const isMatch = await bcrypt.compare(password, user.password);
-    //         if (!isMatch) {
-    //             return res.status(400).json(createResponse(false, 'Invalid credentials'));
-    //         }
-
-    //         const authToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '50m' });
-    //         const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: '100m' });
-
-    //         res.cookie('authToken', authToken, { httpOnly: true });
-    //         res.cookie('refreshToken', refreshToken, { httpOnly: true });
-    //         res.status(200).json(createResponse(true, 'Login successful', {
-    //             authToken,
-    //             refreshToken
-    //         }));
-    //     }
-    //     catch (err) {
-    //         next(err);
-    //     }
-    // })
-
-
-
+    const handleAuthSuccess = () => {
+        onAuthSuccess?.();
+        setShowpopup(false);
+    }
 
     const handleLogin = () => {
-        console.log(loginformData);
-
         fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/auth/login', {
             method: 'POST',
             headers: {
@@ -137,14 +88,15 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
         })
         .then(res => res.json())
             .then(data => {
-                console.log(data)
-
                 if (data.ok) {
                     toast.success(data.message)
-
-                    setShowpopup(false)
+                    handleAuthSuccess()
                 }
                 else {
+                    if (data?.data?.requiresVerification || data?.message?.toLowerCase()?.includes('not verified')) {
+                        setVerificationEmail(loginformData.email)
+                        setCurrentView('verify')
+                    }
                     toast.error(data.message)
                 }
             }).catch(err => {
@@ -152,7 +104,10 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
             })
     }
     const handleSignup = () => {
-        // console.log(process.env.NEXT_PUBLIC_BACKEND_API);
+        if (!passwordRegex.test(signupformData.password)) {
+            toast.error(passwordRuleMessage);
+            return;
+        }
 
         fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/auth/register', {
             method: 'POST',
@@ -164,12 +119,10 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-
                 if (data.ok) {
                     toast.success(data.message)
-
-                    setShowSignup(false)
+                    setVerificationEmail(signupformData.email)
+                    setCurrentView('verify')
                 }
                 else {
                     toast.error(data.message)
@@ -178,24 +131,112 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
                 console.log(err)
             })
     }
+
+    const handleVerifyAccount = () => {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/auth/verify-account', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: verificationEmail, otp: verificationOtp }),
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    toast.success(data.message)
+                    setCurrentView('login')
+                } else {
+                    toast.error(data.message)
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleResendVerificationOtp = () => {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/auth/resend-verification-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: verificationEmail }),
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    toast.success(data.message)
+                } else {
+                    toast.error(data.message)
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleForgotPassword = () => {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/auth/forgot-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: forgotEmail }),
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    toast.success(data.message)
+                    setVerificationEmail(forgotEmail)
+                    setCurrentView('reset')
+                } else {
+                    toast.error(data.message)
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleResetPassword = () => {
+        if (!passwordRegex.test(newPassword)) {
+            toast.error(passwordRuleMessage);
+            return;
+        }
+
+        fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/auth/reset-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: verificationEmail, otp: resetOtp, newPassword }),
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    toast.success(data.message)
+                    setCurrentView('login')
+                } else {
+                    toast.error(data.message)
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
     return (
         <div className='popup'>
-            <button className='close'
-                onClick={() => {
-                    setShowpopup(false)
-                }}
-            >
-                <AiOutlineClose />
-            </button>
+            {!forceOpen && (
+                <button className='close' onClick={closePopup}>
+                    <AiOutlineClose />
+                </button>
+            )}
             {
-                showSignup ? (
+                currentView === 'signup' ? (
                     <div className='authform'>
 
                         <div className='left'>
                             <Image src={logo} alt="Logo" />
                         </div>
                         <div className='right'>
-                            <h1>Signup to become a freak</h1>
+                            <h1>Create your account</h1>
                             <form action="">
                                 <Input
                                     color="warning"
@@ -334,10 +375,10 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
                                             backgroundColor: 'white',
                                         }}
 
-                                        onChange={(newValue) => {
+                                        onChange={(newValue: Dayjs | null) => {
                                             setSignupFormData({
                                                 ...signupformData,
-                                                dob: new Date(newValue as any)
+                                                dob: newValue ? newValue.toDate() : new Date()
                                             })
                                         }}
                                     />
@@ -351,10 +392,122 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
                                 >Signup</button>
                             </form>
                             <p>Already have an account?  <button onClick={() => {
-                                setShowSignup(false)
+                                setCurrentView('login')
                             }}>Login</button></p>
                         </div>
 
+                    </div>
+                ) : currentView === 'verify' ? (
+                    <div className='authform'>
+                        <div className='left'>
+                            <Image src={logo} alt="Logo" />
+                        </div>
+                        <div className='right'>
+                            <h1>Verify your account</h1>
+                            <form action="">
+                                <Input
+                                    color="warning"
+                                    placeholder="email"
+                                    size="lg"
+                                    variant="solid"
+                                    value={verificationEmail}
+                                    onChange={(e) => setVerificationEmail(e.target.value)}
+                                />
+                                <Input
+                                    color="warning"
+                                    placeholder="OTP"
+                                    size="lg"
+                                    variant="solid"
+                                    value={verificationOtp}
+                                    onChange={(e) => setVerificationOtp(e.target.value)}
+                                />
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        handleVerifyAccount()
+                                    }}
+                                >Verify Account</button>
+                            </form>
+                            <p>
+                                Didn&apos;t receive OTP? <button onClick={handleResendVerificationOtp}>Resend OTP</button>
+                            </p>
+                            <p>
+                                Back to <button onClick={() => setCurrentView('login')}>Login</button>
+                            </p>
+                        </div>
+                    </div>
+                ) : currentView === 'forgot' ? (
+                    <div className='authform'>
+                        <div className='left'>
+                            <Image src={logo} alt="Logo" />
+                        </div>
+                        <div className='right'>
+                            <h1>Forgot Password</h1>
+                            <form action="">
+                                <Input
+                                    color="warning"
+                                    placeholder="email"
+                                    size="lg"
+                                    variant="solid"
+                                    value={forgotEmail}
+                                    onChange={(e) => setForgotEmail(e.target.value)}
+                                />
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        handleForgotPassword()
+                                    }}
+                                >Send Reset OTP</button>
+                            </form>
+                            <p>
+                                Back to <button onClick={() => setCurrentView('login')}>Login</button>
+                            </p>
+                        </div>
+                    </div>
+                ) : currentView === 'reset' ? (
+                    <div className='authform'>
+                        <div className='left'>
+                            <Image src={logo} alt="Logo" />
+                        </div>
+                        <div className='right'>
+                            <h1>Reset Password</h1>
+                            <form action="">
+                                <Input
+                                    color="warning"
+                                    placeholder="email"
+                                    size="lg"
+                                    variant="solid"
+                                    value={verificationEmail}
+                                    onChange={(e) => setVerificationEmail(e.target.value)}
+                                />
+                                <Input
+                                    color="warning"
+                                    placeholder="reset OTP"
+                                    size="lg"
+                                    variant="solid"
+                                    value={resetOtp}
+                                    onChange={(e) => setResetOtp(e.target.value)}
+                                />
+                                <Input
+                                    color="warning"
+                                    placeholder="new password"
+                                    size="lg"
+                                    variant="solid"
+                                    type='password'
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                />
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        handleResetPassword()
+                                    }}
+                                >Reset Password</button>
+                            </form>
+                            <p>
+                                Back to <button onClick={() => setCurrentView('login')}>Login</button>
+                            </p>
+                        </div>
                     </div>
                 ) : (
                     <div className='authform'>
@@ -362,7 +515,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
                             <Image src={logo} alt="Logo" />
                         </div>
                         <div className='right'>
-                            <h1>Login to become a freak</h1>
+                            <h1>Login to continue</h1>
                             <form action="">
                                 <Input
                                     color="warning"
@@ -398,9 +551,22 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ setShowpopup }) => {
                                     }}
                                 >Login</button>
                             </form>
-                            <p>Don't have an account?  <button onClick={() => {
-                                setShowSignup(true)
+                            <p>Forgot password? <button onClick={() => {
+                                setForgotEmail(loginformData.email)
+                                setCurrentView('forgot')
+                            }}>Reset</button></p>
+                            <p>Don&apos;t have an account?  <button onClick={() => {
+                                setCurrentView('signup')
                             }}>Signup</button></p>
+                            <p className="adminLoginRow">
+                                <button
+                                    type="button"
+                                    className="adminLoginBtn"
+                                    onClick={() => { window.location.href = '/admin/login' }}
+                                >
+                                    Admin
+                                </button>
+                            </p>
                         </div>
 
                     </div>

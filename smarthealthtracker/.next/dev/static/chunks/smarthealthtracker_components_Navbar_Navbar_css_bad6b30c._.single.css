@@ -1,47 +1,73 @@
 /* [project]/smarthealthtracker/components/Navbar/Navbar.css [app-client] (css) */
 nav {
+  background-color: var(--surface-2);
   z-index: 10;
-  color: #fff;
-  background-color: #1a1a1a;
-  justify-content: center;
+  min-height: 60px;
+  color: var(--text);
+  box-shadow: 0 2px 4px var(--shadow);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  justify-content: flex-start;
   align-items: center;
-  gap: 30px;
-  height: 60px;
-  padding: 0 50px;
+  gap: 20px;
+  padding: 0 24px;
   font-family: Montserrat, sans-serif;
   font-size: 1.2rem;
   font-weight: 500;
   display: flex;
   position: sticky;
   top: 0;
-  box-shadow: 0 2px 4px #00000080;
+}
+
+.navLinks {
+  align-items: center;
+  gap: 28px;
+  display: flex;
+}
+
+.navSpacer {
+  flex: 1;
+  min-width: 12px;
+}
+
+.navActions {
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  display: flex;
+}
+
+.navLogout {
+  background-color: var(--col1);
+  cursor: pointer;
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  padding: 10px 16px;
+  font-family: Montserrat, "sans-serif";
+  font-weight: 600;
+  transition: all .3s ease-in-out;
+}
+
+.navLogout:hover {
+  filter: brightness(1.05);
 }
 
 nav img {
+  flex-shrink: 0;
   width: auto;
   height: 60px;
 }
 
 nav a {
-  color: #fff;
+  color: var(--text);
   text-decoration: none;
   transition: all .3s ease-in-out;
 }
 
 nav a:hover {
   color: #ffc20e;
-}
-
-nav button {
-  background-color: var(--col1);
-  cursor: pointer;
-  color: #fff;
-  border: none;
-  outline: none;
-  padding: 10px;
-  font-family: Montserrat, "sans-serif";
-  font-weight: 500;
-  transition: all .3s ease-in-out;
 }
 
 /*# sourceMappingURL=smarthealthtracker_components_Navbar_Navbar_css_bad6b30c._.single.css.map*/

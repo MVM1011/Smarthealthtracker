@@ -1,0 +1,34 @@
+.themeToggle {
+    display: inline-flex;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+}
+
+.themeToggle__btn {
+    padding: 8px 14px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    color: var(--muted);
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.themeToggle__btn:hover {
+    color: var(--text);
+    background: var(--surface);
+}
+
+.themeToggle__btn--active {
+    background: var(--col1);
+    color: #111;
+}
+
+.themeToggle__btn--active:hover {
+    background: var(--col1);
+    color: #111;
+}

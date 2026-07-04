@@ -1,0 +1,32 @@
+/* [project]/smarthealthtracker/components/ThemeToggle/ThemeToggle.css [app-client] (css) */
+.themeToggle {
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: 10px;
+  display: inline-flex;
+  overflow: hidden;
+}
+
+.themeToggle__btn {
+  cursor: pointer;
+  color: var(--muted);
+  background: none;
+  border: none;
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+  transition: background .15s, color .15s;
+}
+
+.themeToggle__btn:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.themeToggle__btn--active, .themeToggle__btn--active:hover {
+  background: var(--col1);
+  color: #111;
+}
+
+/*# sourceMappingURL=smarthealthtracker_components_ThemeToggle_ThemeToggle_css_bad6b30c._.single.css.map*/

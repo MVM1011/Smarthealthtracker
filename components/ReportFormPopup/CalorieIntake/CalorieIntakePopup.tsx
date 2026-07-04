@@ -14,9 +14,10 @@ import { toast } from 'react-toastify';
 
 interface CalorieIntakePopupProps {
     setShowCalorieIntakePopup: React.Dispatch<React.SetStateAction<boolean>>;
+    onPopupClose?: () => void;
 }
 
-const CalorieIntakePopup: React.FC<CalorieIntakePopupProps> = ({ setShowCalorieIntakePopup }) => {
+const CalorieIntakePopup: React.FC<CalorieIntakePopupProps> = ({ setShowCalorieIntakePopup, onPopupClose }) => {
 const color = '#ffc20e'
 const[date,setDate] = React.useState<any>(dayjs(new Date()))
 const [time, setTime] = React.useState<any>(dayjs(new Date()))
@@ -129,12 +130,17 @@ const selectedDay = (val: any) => {
   setDate(val)
 };
 
+const handleClose = () => {
+  setShowCalorieIntakePopup(false)
+  onPopupClose?.()
+}
+
   return (
     <div className='popupout'>
       <div className ='popupbox'>
         <button className='close' 
         onClick={() => {
-          setShowCalorieIntakePopup(false)
+          handleClose()
         }}
         >
           <AiOutlineClose/>

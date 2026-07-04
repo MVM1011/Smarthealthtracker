@@ -1,78 +1,78 @@
 "use client"
 import React from 'react'
 import './workoutPage.css'
-const page = () => {
-    const [workout, setWorkout] = React.useState<any>(null)
+import { useParams } from 'next/navigation'
+import type { Exercise, WorkoutPlan } from '@/lib/workoutDefaults'
+import { defaultPlansByType } from '@/lib/workoutDefaults'
 
-
-    const getworkout = async () => {
-        let data: any = {
-            type: 'Chest',
-            imageUrl: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-            durationInMin: 30,
-            exercises: [
-                {
-                    exercise: 'Flat Bench Press',
-                    videoUrl: 'https://gymvisual.com/img/p/1/7/5/5/2/17552.gif',
-                    sets: 3,
-                    reps: 10,
-                    rest: 60,
-                    description: 'The flat bench press is a foundational compound weight-training exercise where you press a weight upward while lying horizontally on a bench. It is considered the "gold standard" for building upper body strength and mass, primarily targeting the pectoralis major (chest), anterior deltoids (front shoulders), and triceps brachii.'
-                },
-                {
-                    exercise: 'Incline Bench Press',
-                    videoUrl: 'https://gymvisual.com/img/p/1/0/3/9/8/10398.gif',
-                    sets: 3,
-                    reps: 10,
-                    rest: 60,
-                    description: 'The incline bench press is a compound upper-body exercise that primarily targets the clavicular head (upper portion) of the pectoralis major. By performing the press on an upward slope, the focus shifts from the middle chest to the upper chest and anterior deltoids (shoulders).'
-
-                },
-                {
-                    exercise: 'Decline Bench Press',
-                    videoUrl: 'https://gymvisual.com/img/p/6/5/2/3/6523.gif',
-                    sets: 3,
-                    reps: 10,
-                    rest: 60,
-                    description: 'The decline bench press is a variation of the chest press that targets the sternal head (lower portion) of the pectoralis major. By positioning your body at a downward angle, you shift the load away from the shoulders and more onto the lower chest and triceps.'
-
-                }
-            ]
-        }
-
-
-        setWorkout(data)
-    }
+const WorkoutPage = () => {
+    const params = useParams<{ type: string }>()
+    const normalizedType = (params?.type || 'chest').toLowerCase()
+    const fallback = defaultPlansByType[normalizedType] || defaultPlansByType.chest
+    const [workout, setWorkout] = React.useState<WorkoutPlan>(fallback)
 
     React.useEffect(() => {
-        getworkout()
-    }, [])
-    return (
-        <div className='workout'>
-            <h1 className='mainhead1'> {workout?.type} Day</h1>
-            <div className='workout__exercises'>
-                {
-                    workout?.exercises.map((item: any, index: number)=>{
-                        return (
-                            <div key={index} className={
-                                index % 2 === 0 ? 'workout__exercise' : 'workout__exercise workout__exercise--reverse'
-                            }>
-                                <h3>{index+1}</h3>
-                                <div className='workout__exercise__image'>
-                                    <img src={item.videoUrl} alt="" />
-                                </div>
-                                <div className='workout__exercise__content'>
-                                    <h2>{item.exercise}</h2>
-                                    <span>{item.sets} sets X {item.reps} reps</span>
-                                    <p>{item.description}</p>
-                                </div>
-                            </div>
-                        )
+        const fb = defaultPlansByType[normalizedType] || defaultPlansByType.chest
+        setWorkout(fb)
+        const api = process.env.NEXT_PUBLIC_BACKEND_API
+        fetch(`${api}/workoutcategories/${encodeURIComponent(normalizedType)}`, {
+            credentials: 'include',
+        })
+            .then((r) => r.json())
+            .then((data) => {
+                if (data.ok && data.data?.exercises?.length) {
+                    const ex: Exercise[] = (data.data.exercises as Exercise[]).map((e) => ({
+                        name: e.name,
+                        description: e.description,
+                        sets: String(e.sets),
+                        reps: String(e.reps),
+                        mediaUrl: e.mediaUrl,
+                        mediaType: e.mediaType === 'image' ? 'image' : 'gif',
+                        exerciseLink: e.exerciseLink,
+                        howToDo: e.howToDo,
+                    }))
+                    setWorkout({
+                        type: data.data.displayName || fb.type,
+                        exercises: ex,
                     })
                 }
+            })
+            .catch(() => undefined)
+    }, [normalizedType])
+
+    const renderExerciseBlock = (item: Exercise, index: number) => (
+        <div
+            key={`${item.name}-${index}`}
+            className={index % 2 === 0 ? 'workout__exercise' : 'workout__exercise workout__exercise--reverse'}
+        >
+            <h3>{index + 1}</h3>
+            <div className='workout__exercise__image'>
+                <img src={item.mediaUrl} alt={`${item.name} ${item.mediaType === 'gif' ? 'GIF demo' : 'image demo'}`} />
+            </div>
+            <div className='workout__exercise__content'>
+                <h2>{item.name}</h2>
+                <span>{item.sets} sets X {item.reps} reps</span>
+                <p>{item.description}</p>
+                <p><strong>How to do:</strong> {item.howToDo}</p>
+                {item.mediaType !== 'gif' && item.exerciseLink && (
+                    <div className='workout__exercise__linkBox'>
+                        <a href={item.exerciseLink} target='_blank' rel='noopener noreferrer'>
+                            Exercise Link
+                        </a>
+                    </div>
+                )}
+            </div>
+        </div>
+    )
+
+    return (
+        <div className='workout'>
+            <h1 className='mainhead1'>{workout.type} Workouts</h1>
+            <div className='workout__exercises'>
+                {workout.exercises.map(renderExerciseBlock)}
             </div>
         </div>
     )
 }
 
-export default page
+export default WorkoutPage

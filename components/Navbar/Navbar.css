@@ -1,44 +1,70 @@
 nav{
-    background-color: #1a1a1a;
-    height: 60px;
+    background-color: var(--surface-2);
+    min-height: 60px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    padding: 0 50px 0 50px;
+    padding: 0 24px 0 24px;
     position:sticky;
     top: 0;
     z-index: 10;
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 1.2rem;
-    color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0,0,0.5);
-    gap: 30px;
+    color: var(--text);
+    box-shadow: 0 2px 4px var(--shadow);
+    gap: 20px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
 }
 
-nav img{
-    height: 60px;
-    width: auto;
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 28px;
 }
 
-nav a{
-    text-decoration: none;
-    color: #fff;
-    transition: 0.3s ease-in-out;
+.navSpacer {
+    flex: 1;
+    min-width: 12px;
 }
 
-nav a:hover{
-    color: #ffc20e;
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: auto;
 }
 
-nav button{
+.navLogout {
     background-color: var(--col1);
     border: none;
     outline: none;
     cursor: pointer;
     font-family: 'Montserrat','sans-serif';
-    font-weight: 500;
-    color: white;
+    font-weight: 600;
+    color: #111;
     transition: 0.3s ease-in-out;
-    padding: 10px;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.navLogout:hover {
+    filter: brightness(1.05);
+}
+
+nav img{
+    height: 60px;
+    width: auto;
+    flex-shrink: 0;
+}
+
+nav a{
+    text-decoration: none;
+    color: var(--text);
+    transition: 0.3s ease-in-out;
+}
+
+nav a:hover{
+    color: #ffc20e;
 }

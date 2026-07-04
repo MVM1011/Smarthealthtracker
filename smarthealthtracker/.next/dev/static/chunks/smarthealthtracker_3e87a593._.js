@@ -310,11 +310,6 @@ const HomeBanner2 = ()=>{
                 durationInMin: 90
             },
             {
-                type: 'Shoulder',
-                imageUrl: 'https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-                durationInMin: 40
-            },
-            {
                 type: 'Back',
                 imageUrl: 'https://images.unsplash.com/photo-1603287681836-b174ce5074c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmFjayUyMHdvcmtvdXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
                 durationInMin: 70
@@ -359,7 +354,7 @@ const HomeBanner2 = ()=>{
                 children: "Workouts"
             }, void 0, false, {
                 fileName: "[project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.tsx",
-                lineNumber: 74,
+                lineNumber: 69,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$swiper$2f$swiper$2d$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Swiper"], {
@@ -403,7 +398,7 @@ const HomeBanner2 = ()=>{
                                         children: item.type
                                     }, void 0, false, {
                                         fileName: "[project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.tsx",
-                                        lineNumber: 111,
+                                        lineNumber: 106,
                                         columnNumber: 21
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$smarthealthtracker$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -413,35 +408,35 @@ const HomeBanner2 = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.tsx",
-                                        lineNumber: 112,
+                                        lineNumber: 107,
                                         columnNumber: 21
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.tsx",
-                                lineNumber: 110,
+                                lineNumber: 105,
                                 columnNumber: 19
                             }, ("TURBOPACK compile-time value", void 0))
-                        }, void 0, false, {
+                        }, index, false, {
                             fileName: "[project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.tsx",
-                            lineNumber: 102,
+                            lineNumber: 97,
                             columnNumber: 17
                         }, ("TURBOPACK compile-time value", void 0))
                     }, index, false, {
                         fileName: "[project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.tsx",
-                        lineNumber: 101,
+                        lineNumber: 96,
                         columnNumber: 15
                     }, ("TURBOPACK compile-time value", void 0));
                 })
             }, void 0, false, {
                 fileName: "[project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.tsx",
-                lineNumber: 75,
+                lineNumber: 70,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/smarthealthtracker/components/HomeBanner2/HomeBanner2.tsx",
-        lineNumber: 73,
+        lineNumber: 68,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

@@ -1,12 +1,14 @@
 /* [project]/smarthealthtracker/components/Navbar/Navbar.css [app-client] (css) */
 nav {
+  background-color: var(--surface-2);
   z-index: 10;
-  color: #fff;
-  background-color: #1a1a1a;
+  height: 60px;
+  color: var(--text);
+  box-shadow: 0 2px 4px var(--shadow);
+  border-bottom: 1px solid var(--border);
   justify-content: center;
   align-items: center;
   gap: 30px;
-  height: 60px;
   padding: 0 50px;
   font-family: Montserrat, sans-serif;
   font-size: 1.2rem;
@@ -14,7 +16,6 @@ nav {
   display: flex;
   position: sticky;
   top: 0;
-  box-shadow: 0 2px 4px #00000080;
 }
 
 nav img {
@@ -23,7 +24,7 @@ nav img {
 }
 
 nav a {
-  color: #fff;
+  color: var(--text);
   text-decoration: none;
   transition: all .3s ease-in-out;
 }
@@ -37,6 +38,7 @@ nav button {
   cursor: pointer;
   color: #fff;
   border: none;
+  border-radius: 8px;
   outline: none;
   padding: 10px;
   font-family: Montserrat, "sans-serif";
@@ -119,6 +121,27 @@ nav button {
   right: 0;
 }
 
+.adminLoginRow {
+  text-align: center;
+  margin-top: 6px !important;
+}
+
+.adminLoginBtn {
+  border: 1px solid var(--col1);
+  color: var(--col1);
+  cursor: pointer;
+  opacity: .85;
+  background: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.adminLoginBtn:hover {
+  opacity: 1;
+  background: #ffc20e1f;
+}
+
 /* [project]/smarthealthtracker/app/globals.css [app-client] (css) */
 * {
   margin: 0;
@@ -127,11 +150,28 @@ nav button {
 
 :root {
   --col1: #ffc20e;
+  --bg: #0a0a0a;
+  --surface: #121212;
+  --surface-2: #1a1a1a;
+  --text: #fff;
+  --muted: #d0d0d0;
+  --border: #2a2a2a;
+  --shadow: #0006;
+}
+
+[data-theme="light"] {
+  --bg: #f5f7fb;
+  --surface: #fff;
+  --surface-2: #f1f3f8;
+  --text: #1b1f2a;
+  --muted: #4a5161;
+  --border: #d9dfec;
+  --shadow: #00000014;
 }
 
 body {
-  color: #fff;
-  background-color: #000;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .mainhead1 {
